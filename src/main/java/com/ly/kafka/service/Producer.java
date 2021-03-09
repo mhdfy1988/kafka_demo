@@ -1,5 +1,6 @@
 package com.ly.kafka.service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -15,15 +16,20 @@ public class Producer {
 	@Autowired
 	private KafkaConfig config;
 	
-	public void sendMsg() {
-		
+	private KafkaProducer<String, String> producer = null;
+	
+	public void init () {
 		Properties  props = config.getProducer();
-
-		KafkaProducer<String, String> producer = new KafkaProducer<>(props);
-		for (int i = 0; i < 10; i++) {
-		    // 三个参数分别为topic, key,value，send()是异步的，添加到缓冲区立即返回，更高效。
-		    producer.send(new ProducerRecord<String, String>("test", "value"+i));
+		producer = new KafkaProducer<>(props);
+	}
+	
+	public void sendMsg(String topic,List<String> msgList) {
+		for(String msg : msgList) {
+			producer.send(new ProducerRecord<String, String>(topic, msg));
 		}
+	}
+	
+	public void close () {
 		producer.close();
 	}
 }       	
