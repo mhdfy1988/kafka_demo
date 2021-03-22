@@ -2,6 +2,7 @@ package com.ly.kafka.service;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -22,10 +23,16 @@ public class Consumer {
 	
 	private KafkaConsumer<String, String> consumer = null;
 	
-	public void init () {
+	public void init (String topic) {
 		Properties props = config.getConsumer();
 		consumer = new KafkaConsumer<>(props);
-		consumer.subscribe(Arrays.asList("test"));
+		consumer.subscribe(Arrays.asList(topic));
+	}
+	
+	public void init (List<String> topics) {
+		Properties props = config.getConsumer();
+		consumer = new KafkaConsumer<>(props);
+		consumer.subscribe(topics);
 	}
 	
 	public  void  listen() {

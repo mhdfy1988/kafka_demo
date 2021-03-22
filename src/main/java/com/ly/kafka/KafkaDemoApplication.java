@@ -45,7 +45,7 @@ public class KafkaDemoApplication implements ApplicationRunner{
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		try {
-			consumer.init();
+			consumer.init("test");
 			consumer.listen();
 		}finally {
 			consumer.close();
